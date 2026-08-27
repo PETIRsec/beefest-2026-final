@@ -1,0 +1,11 @@
+CTFd-Nginx-LetsEncrypt/
+.script/__pycache__
+done.json
+done_install.json
+.ctf/
+data/
+ssl/
+webroot/
+__pycache__/
+*.pyc
+.env

@@ -1,0 +1,56 @@
+# Do not make the challenge name too long
+name: "Buffer Overflow"
+
+# Binary Exploitation
+# Cryptography
+# Forensics
+# Misc
+# Reverse Engineering
+# Web Exploitation
+# Other
+category: Binary Exploitation
+
+# You can use <br> to make a new line in the description
+# Using ENTER one time does not make a new line in the description, be sure to ENTER two times to make a new line
+description: |-
+  Description blabla<br>
+  More description blabla
+
+  Author: {Name Author}
+
+  <a href="http://example.com/">http://example.com/</a>
+
+# ENSURE THE PORT YOU WANT TO USE IS NOT CURRENTLY USED BY ANOTHER CHALLENGE
+# If the challenge does not use a port, you can comment this section out like below
+connection_info: nc {ip_chall} port_chall
+
+####### DON'T CHANGE #######
+value: {initial_point}
+type: dynamic
+extra:
+    initial: {initial_point}
+    decay: {decay_point}
+    minimum: 100
+####### DON'T CHANGE #######
+
+flags:
+  - {flag_format}
+
+# Tags should be in string data type, notice the quotation marks
+# e.g. "easy", "medium", "hard", "67"
+tags:
+  - "easy"
+  - "medium"
+  - "hard"
+
+files:
+  - dist/chall.zip
+
+# SPECIFY AT THE COMMENT BELOW at which wave will the challenge be released (1, 2, 3, etc.)
+# If there are no waves, then just leave it as 1
+# Wave : 1
+state: hidden
+# ENSURE THE STATE IS HIDDEN WHEN YOU FIRST UPLOAD THE CHALLENGE
+# ONLY CHANGE THE STATE TO VISIBLE A FEW HOURS BEFORE THE CTF STARTS
+
+version: "0.1"
