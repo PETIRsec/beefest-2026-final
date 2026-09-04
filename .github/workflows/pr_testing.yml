@@ -1,49 +1,107 @@
-name: On Pull Request Opened
+name: PR Compose Test
 
 on:
     pull_request:
         branches:
             - main
 
+permissions:
+    contents: read
+
 jobs:
-    deploy:
+    compose-test:
         runs-on: ubuntu-latest
+        timeout-minutes: 30
 
         steps:
-            - name: Deploy Challs to CTFd
-              uses: appleboy/ssh-action@master
+            - name: Checkout Repository
+              uses: actions/checkout@v4
               with:
-                  host: ${{ secrets.CTFD_SERVER_IP }}
-                  username: ${{ secrets.CTFD_SERVER_SSH_USERNAME }}
-                  port: ${{ secrets.CTFD_SERVER_SSH_PORT }}
-                  key: ${{ secrets.CTFD_SERVER_SSH_PRIVATE_KEY }}
-                  script: |
-                      export PATH=~/.local/bin/:$PATH
-                      export CTFD_URL="${{ secrets.CTFD_URL }}"
-                      export CTFD_ADMIN_ACCESS_TOKEN="${{ secrets.CTFD_ADMIN_ACCESS_TOKEN }}"
-                      REPO_NAME=$(basename ${{ github.repository }})
-                      cd ~/$REPO_NAME
-                      git stash
-                      git checkout main
-                      git pull
-                      chmod +x .script/find_directory_and_install_or_sync.sh
-                      .script/find_directory_and_install_or_sync.sh
+                  fetch-depth: 0
 
-            - name: Deploy Challs Docker
-              uses: appleboy/ssh-action@master
-              with:
-                  host: ${{ secrets.CHALLENGE_SERVER_IP }}
-                  username: ${{ secrets.CHALLENGE_SERVER_SSH_USERNAME }}
-                  port: ${{ secrets.CHALLENGE_SERVER_SSH_PORT }}
-                  key: ${{ secrets.CHALLENGE_SERVER_SSH_PRIVATE_KEY }}
-                  script: |
-                      export PATH=~/.local/bin/:$PATH
-                      export CTFD_URL="${{ secrets.CTFD_URL }}"
-                      export CTFD_ADMIN_ACCESS_TOKEN="${{ secrets.CTFD_ADMIN_ACCESS_TOKEN }}"
-                      REPO_NAME=$(basename ${{ github.repository }})
-                      cd ~/$REPO_NAME
-                      git stash
-                      git checkout main
-                      git pull
-                      chmod +x .script/find_src_and_execute.sh
-                      .script/find_src_and_execute.sh
+            - name: Run Compose For Changed Dockerfiles
+              shell: bash
+              run: |
+                  set -euo pipefail
+
+                  BASE="${{ github.event.pull_request.base.sha }}"
+                  HEAD="${{ github.event.pull_request.head.sha }}"
+
+                  echo "Base: $BASE"
+                  echo "Head: $HEAD"
+
+                  changed_files="$(git diff --name-only "$BASE" "$HEAD" -- || true)"
+                  if [[ -z "$changed_files" ]]; then
+                      echo "No changes detected."
+                      exit 0
+                  fi
+
+                  echo "Changed files:"
+                  printf '%s\n' "$changed_files" | sed 's/^/  - /'
+
+                  mapfile -d '' -t compose_files < <(git ls-files -z -- \
+                      ':(glob)**/docker-compose.yml' \
+                      ':(glob)**/docker-compose.yaml' \
+                      ':(glob)**/compose.yml' \
+                      ':(glob)**/compose.yaml')
+                  if [[ ${#compose_files[@]} -eq 0 ]]; then
+                      echo "No compose files found in repo."
+                      exit 0
+                  fi
+
+                  declare -A compose_dir_set=()
+                  for f in "${compose_files[@]}"; do
+                      compose_dir_set["$(dirname "$f")"]=1
+                  done
+                  compose_dirs=("${!compose_dir_set[@]}")
+
+                  dirs=()
+                  for dir in "${compose_dirs[@]}"; do
+                      # Skip template — it's a reference, not a real challenge
+                      if [[ "$dir" == *"Template-Challenge"* ]]; then
+                          echo "Skipping template: $dir"
+                          continue
+                      fi
+                      if [[ "$dir" == "." ]]; then
+                          if git diff --name-only "$BASE" "$HEAD" -- . | grep -q .; then
+                              dirs+=("$dir")
+                          fi
+                          continue
+                      fi
+                      if git diff --name-only "$BASE" "$HEAD" -- "$dir/" | grep -q .; then
+                          dirs+=("$dir")
+                      fi
+                  done
+
+                  if [[ ${#dirs[@]} -eq 0 ]]; then
+                      echo "No changes under compose directories."
+                      exit 0
+                  fi
+
+                  echo "Will run compose in:"
+                  for d in "${dirs[@]}"; do
+                      echo "  - $d"
+                  done
+
+                  for dir in "${dirs[@]}"; do
+                      compose_file=""
+                      if [[ -f "$dir/docker-compose.yml" ]]; then
+                          compose_file="docker-compose.yml"
+                      elif [[ -f "$dir/docker-compose.yaml" ]]; then
+                          compose_file="docker-compose.yaml"
+                      elif [[ -f "$dir/compose.yml" ]]; then
+                          compose_file="compose.yml"
+                      elif [[ -f "$dir/compose.yaml" ]]; then
+                          compose_file="compose.yaml"
+                      else
+                          echo "No compose file in $dir, skipping."
+                          continue
+                      fi
+
+                      echo "Running compose in $dir with $compose_file"
+                      (
+                          cd "$dir"
+                          trap 'docker compose -f "$compose_file" down -v --remove-orphans' EXIT
+                          docker compose -f "$compose_file" up -d --build
+                      )
+                  done

@@ -1,7 +1,26 @@
 import json
 import sys
 import subprocess
-import os
+
+
+def run_ctf(action, challenge_path):
+    result = subprocess.run(
+        ["ctf", "challenge", action, challenge_path],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+        text=True,
+    )
+    if result.stdout:
+        print(result.stdout, end="", flush=True)
+    return result.returncode, result.stdout or ""
+
+
+def should_install_after_sync_error(output):
+    return (
+        "Could not find existing challenge" in output
+        and "Perhaps you meant install instead of sync" in output
+    )
+
 
 try:
     res = open("done_install.json", "r").read()
@@ -28,9 +47,12 @@ elif last != now:
     status = "update"
 
 if status == "install":
-    errcode = os.system(f"ctf challenge install \"{path}\"")
+    errcode, _ = run_ctf("install", path)
 elif status == "update":
-    errcode = os.system(f"ctf challenge sync \"{path}\"")
+    errcode, output = run_ctf("sync", path)
+    if errcode != 0 and should_install_after_sync_error(output):
+        print("[+] Existing challenge was not found in CTFd, installing instead", flush=True)
+        errcode, _ = run_ctf("install", path)
 
 if errcode != 0:
     print("[+] Error installing or syncing", flush=True)

@@ -11,40 +11,77 @@ jobs:
         runs-on: ubuntu-latest
 
         steps:
-            - name: Deploy Challs to CTFd
-              uses: appleboy/ssh-action@master
-              with:
-                  host: ${{ secrets.CTFD_SERVER_IP }}
-                  username: ${{ secrets.CTFD_SERVER_SSH_USERNAME }}
-                  port: ${{ secrets.CTFD_SERVER_SSH_PORT }}
-                  key: ${{ secrets.CTFD_SERVER_SSH_PRIVATE_KEY }}
-                  script: |
-                      export PATH=~/.local/bin/:$PATH
-                      export CTFD_URL="${{ secrets.CTFD_URL }}"
-                      export CTFD_ADMIN_ACCESS_TOKEN="${{ secrets.CTFD_ADMIN_ACCESS_TOKEN }}"
-                      REPO_NAME=$(basename ${{ github.repository }})
-                      cd ~/$REPO_NAME
-                      git stash
-                      git checkout main
-                      git pull
-                      chmod +x .script/find_directory_and_install_or_sync.sh
-                      .script/find_directory_and_install_or_sync.sh
+            - name: Checkout Repository
+              uses: actions/checkout@v3
 
-            - name: Deploy Challs Docker
-              uses: appleboy/ssh-action@master
+            - name: Deploy Challs to CTFd
+              uses: appleboy/ssh-action@v1.2.4
               with:
-                  host: ${{ secrets.CHALLENGE_SERVER_IP }}
-                  username: ${{ secrets.CHALLENGE_SERVER_SSH_USERNAME }}
-                  port: ${{ secrets.CHALLENGE_SERVER_SSH_PORT }}
-                  key: ${{ secrets.CHALLENGE_SERVER_SSH_PRIVATE_KEY }}
-                  script: |
-                      export PATH=~/.local/bin/:$PATH
-                      export CTFD_URL="${{ secrets.CTFD_URL }}"
-                      export CTFD_ADMIN_ACCESS_TOKEN="${{ secrets.CTFD_ADMIN_ACCESS_TOKEN }}"
-                      REPO_NAME=$(basename ${{ github.repository }})
-                      cd ~/$REPO_NAME
-                      git stash
-                      git checkout main
-                      git pull
-                      chmod +x .script/find_src_and_execute.sh
-                      .script/find_src_and_execute.sh
+                    host: ${{ secrets.CTFD_SERVER_IP }}
+                    username: ${{ secrets.CTFD_SERVER_SSH_USERNAME }}
+                    port: ${{ secrets.CTFD_SERVER_SSH_PORT }}
+                    key: ${{ secrets.CTFD_SERVER_SSH_PRIVATE_KEY }}
+                    script: |
+                        set -e
+                        export PATH=~/.local/bin/:$PATH
+                        export CTFD_URL="${{ secrets.CTFD_URL }}"
+                        export CTFD_ADMIN_ACCESS_TOKEN="${{ secrets.CTFD_ADMIN_ACCESS_TOKEN }}"
+                        REPO_NAME=$(basename ${{ github.repository }})
+                        cd ~/$REPO_NAME || { echo "Repository not found"; exit 1; }
+
+                        STASH_NAME="ci-${GITHUB_RUN_ID:-manual}-deploy-soal-$(date +%s)"
+                        STASH_CREATED=0
+                        cleanup() {
+                            if [ "$STASH_CREATED" = "1" ]; then
+                                STASH_REF=$(git stash list | grep -F "$STASH_NAME" | head -n1 | cut -d: -f1)
+                                if [ -n "$STASH_REF" ]; then
+                                    git stash drop "$STASH_REF" 2>/dev/null || true
+                                fi
+                            fi
+                        }
+                        trap cleanup EXIT
+
+                        if ! git diff --quiet || ! git diff --cached --quiet || [ -n "$(git ls-files -o --exclude-standard)" ]; then
+                            git stash push -u -m "$STASH_NAME"
+                            STASH_CREATED=1
+                        fi
+                        git checkout main
+                        git pull
+                        chmod +x .script/find_directory_and_install_or_sync.sh
+                        .script/find_directory_and_install_or_sync.sh
+
+            - name: Run Docker at Chall Infra
+              uses: appleboy/ssh-action@v1.2.4
+              with:
+                    host: ${{ secrets.CHALLENGE_SERVER_IP }}
+                    username: ${{ secrets.CHALLENGE_SERVER_SSH_USERNAME }}
+                    port: ${{ secrets.CHALLENGE_SERVER_SSH_PORT }}
+                    key: ${{ secrets.CHALLENGE_SERVER_SSH_PRIVATE_KEY }}
+                    script: |
+                        set -e
+                        export PATH=~/.local/bin/:$PATH
+                        export CTFD_URL="${{ secrets.CTFD_URL }}"
+                        export CTFD_ADMIN_ACCESS_TOKEN="${{ secrets.CTFD_ADMIN_ACCESS_TOKEN }}"
+                        REPO_NAME=$(basename ${{ github.repository }})
+                        cd ~/$REPO_NAME || { echo "Repository not found"; exit 1; }
+
+                        STASH_NAME="ci-${GITHUB_RUN_ID:-manual}-deploy-chall-$(date +%s)"
+                        STASH_CREATED=0
+                        cleanup() {
+                            if [ "$STASH_CREATED" = "1" ]; then
+                                STASH_REF=$(git stash list | grep -F "$STASH_NAME" | head -n1 | cut -d: -f1)
+                                if [ -n "$STASH_REF" ]; then
+                                    git stash drop "$STASH_REF" 2>/dev/null || true
+                                fi
+                            fi
+                        }
+                        trap cleanup EXIT
+
+                        if ! git diff --quiet || ! git diff --cached --quiet || [ -n "$(git ls-files -o --exclude-standard)" ]; then
+                            git stash push -u -m "$STASH_NAME"
+                            STASH_CREATED=1
+                        fi
+                        git checkout main
+                        git pull
+                        chmod +x .script/find_src_and_execute.sh
+                        .script/find_src_and_execute.sh
