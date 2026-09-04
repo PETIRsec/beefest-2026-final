@@ -1,0 +1,41 @@
+name: "small sigma"
+
+category: Cryptography
+
+description: |-
+  not large enough to stay sigma
+
+  Author: kavakoss
+
+  <a href="https://youtu.be/YXxdETZ9npU">sigma song</a>
+
+# connection_info: nc {ip_chall} port_chall
+
+####### DON'T CHANGE #######
+value: {initial_point}
+type: dynamic
+extra:
+    initial: {initial_point}
+    decay: {decay_point}
+    minimum: 100
+####### DON'T CHANGE #######
+
+flags:
+  - BeeCTF{r34d_7h15_1f_y0u_h4v3_516m4_3y3s_c2lnbWFfYm95}
+
+tags:
+  - "easy"
+  - "sigma"
+
+files:
+  - dist/chall.py
+  - dist/output.txt
+
+# SPECIFY AT THE COMMENT BELOW at which wave will the challenge be released (1, 2, 3, etc.)
+# If there are no waves, then just leave it as 1
+# Wave : 1
+state: hidden
+# ENSURE THE STATE IS HIDDEN WHEN YOU FIRST UPLOAD THE CHALLENGE
+# ONLY CHANGE THE STATE TO VISIBLE A FEW HOURS BEFORE THE CTF STARTS
+
+version: "0.1"
