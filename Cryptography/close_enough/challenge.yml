@@ -12,7 +12,7 @@ type: dynamic
 
 extra:
     initial: 500
-    decay: 20
+    decay: 8
     minimum: 100
     require_ai_source: false
     require_solver: true
