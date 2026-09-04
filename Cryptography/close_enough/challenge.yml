@@ -1,0 +1,36 @@
+name: "Close Enough"
+category: Cryptography
+description: |-
+    Small changes make a big difference
+
+    Author: red_mito
+
+
+##### TIDAK USAH DIGANTI
+value: 500
+type: dynamic
+
+extra:
+    initial: 500
+    decay: 20
+    minimum: 100
+    require_ai_source: false
+    require_solver: true
+##### TIDAK USAH DIGANTI
+
+# connection_info: nc 103.185.52.197 port / http://103.185.52.197:port
+
+flags:
+    - BeeCTF{crgZ4zMdKjo?si=FLe34DUNAJA__myc}
+
+tags:
+    - Hard
+
+files:
+    - dist/dist.zip
+
+state: hidden
+
+# Specifies what version of the challenge specification was used.
+# Subject to change until ctfcli v1.0.0
+version: "0.1"
