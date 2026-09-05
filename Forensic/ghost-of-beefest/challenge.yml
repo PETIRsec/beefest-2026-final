@@ -1,0 +1,45 @@
+name: "Ghost of Beefest"
+
+category: Forensic
+
+description: |-
+Jadi gua punya temen namanya brian. Dia dikasih tau temennya ada tools untuk otomatis bersihin storage 
+servernya brian karena udah mau penuh nih. Toolsnya bakal ngehapus file file yang ga berguna supaya storagenya 
+lebih leluasa. Karena brian sangat butuh, jadi dia langsung aja tuh download dan jalanin toolsnya. 
+Ga sampe semenit kita semua tau lah apa yang terjadi. Gua mau analisa disk nya tapi masalahnya masih ke encrypt. 
+Ada dua key yang perlu dicari, key untuk buka disk dan key untuk encryptionnya. Tolong friends dibantukan :)
+
+https://drive.google.com/file/d/1etjwYFW6hsSytfqSuLNI0YOERBj6DDIX/view?usp=sharing
+
+Author: arenaru
+# connection_info: nc {ip_chall} port_chall
+
+####### DON'T CHANGE #######
+value: 500
+type: dynamic
+
+extra:
+    initial: 500
+    decay: 8
+    minimum: 100
+    require_ai_source: false
+    require_solver: true
+####### DON'T CHANGE #######
+
+flags:
+  - BEECTF{th1s_1s_n0t_a_d3c0y_#realflag_#congratulationyougottheflag!!!}
+
+tags:
+  - "Hard"
+
+files:
+  - 
+
+# SPECIFY AT THE COMMENT BELOW at which wave will the challenge be released (1, 2, 3, etc.)
+# If there are no waves, then just leave it as 1
+# Wave : 1
+state: hidden
+# ENSURE THE STATE IS HIDDEN WHEN YOU FIRST UPLOAD THE CHALLENGE
+# ONLY CHANGE THE STATE TO VISIBLE A FEW HOURS BEFORE THE CTF STARTS
+
+version: "0.1"
