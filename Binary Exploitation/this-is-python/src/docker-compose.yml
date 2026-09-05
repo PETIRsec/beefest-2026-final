@@ -1,0 +1,8 @@
+version: '3.8'
+services:
+  this-is-python:
+    build: .
+    ports:
+      - "6969:8000"
+    restart: always
+    read_only: true
