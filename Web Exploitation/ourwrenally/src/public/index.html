@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Wren Archive</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header><a class="brand" href="/">WREN ARCHIVE</a><span class="tag">FIELD LIBRARY</span><span id="account-name" class="account-name"></span><button id="account">Account</button><button id="settings">Settings</button></header>
+  <main>
+    <section class="hero"><div><p class="eyebrow">FEATURED FLIGHT</p><h1>Wren Archive</h1><p>A small field index for notes, sightings, and public reference material.</p></div><div><div class="video"><iframe src="https://www.youtube.com/embed/uIZAA8tDh7s?rel=0" title="Featured video" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div><a class="watch" href="https://www.youtube.com/watch?v=uIZAA8tDh7s" target="_blank" rel="noreferrer">Watch the field film ↗</a></div></section>
+    <section class="library"><div class="section-title"><p class="eyebrow">NEST RECORDS</p><h2>Available records</h2></div><div id="collections" class="cards"></div></section>
+  </main>
+  <dialog id="preferences"><form method="dialog"><div class="dialog-title"><h2>Display preferences</h2><button aria-label="Close">×</button></div><label>Theme<select id="theme"><option value="night">Night</option><option value="dawn">Dawn</option></select></label><label class="toggle"><input id="telemetry" type="checkbox"><span>Share anonymous usage diagnostics</span></label><button id="save" value="default" class="save">Save preferences</button><p id="notice"></p></form></dialog>
+  <dialog id="account-dialog"><form method="dialog"><div class="dialog-title"><h2>Field account</h2><button aria-label="Close">×</button></div><label>Callsign<input id="username" minlength="3" maxlength="24" pattern="[a-zA-Z0-9_-]+" placeholder="hedgerow_wren" required></label><label>Password<input id="password" type="password" minlength="8" maxlength="128" required></label><div class="account-actions"><button id="create-account" value="default" class="save">Create account</button><button id="login" value="default">Sign in</button></div><p id="account-notice"></p></form></dialog>
+  <script src="/app.js"></script>
+</body>
+</html>
