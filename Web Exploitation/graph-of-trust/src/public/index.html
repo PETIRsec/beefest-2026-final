@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Employee Directory</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <section class="panel auth-panel" id="login-panel">
+        <div>
+          <p class="eyebrow">Internal directory</p>
+          <h1>Employee Directory</h1>
+        </div>
+        <form id="login-form">
+          <label>
+            Username
+            <input id="username" name="username" autocomplete="username" required />
+          </label>
+          <label>
+            Password
+            <input
+              id="password"
+              name="password"
+              type="password"
+              autocomplete="new-password"
+              required
+            />
+          </label>
+          <button id="primary-auth-button" type="submit">Create account</button>
+          <button id="auth-mode-toggle" class="secondary" type="button">Sign in instead</button>
+          <p class="error" id="login-error" role="alert"></p>
+        </form>
+      </section>
+
+      <section class="directory hidden" id="directory">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">Logged in as</p>
+            <h1 id="current-user">employee</h1>
+          </div>
+          <div class="topbar-actions">
+            <nav class="view-tabs" aria-label="Views">
+              <button id="directory-tab" class="tab-button active" type="button">Directory</button>
+              <button id="profile-tab" class="tab-button" type="button">My profile</button>
+            </nav>
+            <button id="logout" class="secondary" type="button">Sign out</button>
+          </div>
+        </header>
+
+        <section class="panel" id="directory-page">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Department</p>
+              <h2 id="department-name">Engineering</h2>
+              <p id="roster-summary" class="muted-line"></p>
+            </div>
+          </div>
+
+          <div class="content-grid">
+            <nav class="employee-list" id="employee-list" aria-label="Employees"></nav>
+            <article class="profile-view">
+              <p class="eyebrow">Public profile</p>
+              <h2 id="profile-name">Select an employee</h2>
+              <p id="profile-username"></p>
+              <p id="profile-bio" class="bio"></p>
+              <button id="private-record-button" type="button">Open private record</button>
+              <div id="private-record" class="private-record"></div>
+            </article>
+          </div>
+        </section>
+
+        <section class="panel hidden" id="profile-page">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">My profile</p>
+              <h2>Public employee data</h2>
+            </div>
+          </div>
+
+          <form id="profile-form" class="profile-form">
+            <label>
+              Username
+              <input id="profile-username-input" name="username" disabled />
+            </label>
+            <label>
+              Public bio
+              <textarea id="profile-bio-input" name="bio" rows="6"></textarea>
+            </label>
+            <div class="form-actions">
+              <button type="submit">Save profile</button>
+              <p id="profile-status" class="form-status" role="status"></p>
+            </div>
+          </form>
+        </section>
+      </section>
+    </main>
+    <script src="/app.js"></script>
+  </body>
+</html>

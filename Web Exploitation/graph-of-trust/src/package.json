@@ -1,0 +1,27 @@
+{
+  "name": "graph-of-trust",
+  "version": "1.0.0",
+  "description": "GraphQL field authorization CTF challenge",
+  "main": "src/index.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js",
+    "verify": "node scripts/verify.js"
+  },
+  "dependencies": {
+    "@apollo/server": "5.5.1",
+    "@as-integrations/express5": "1.1.2",
+    "bcryptjs": "2.4.3",
+    "cors": "2.8.6",
+    "express": "5.2.1",
+    "graphql": "16.11.0",
+    "jsonwebtoken": "9.0.2"
+  },
+  "devDependencies": {
+    "nodemon": "3.1.4"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
