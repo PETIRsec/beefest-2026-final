@@ -1,0 +1,8 @@
+services:
+  notes:
+    build: .
+    ports:
+      - "7331:4919"
+    restart: always
+    mem_limit: 256m
+    cpus: 1.0
