@@ -24,12 +24,15 @@ description: |-
 # connection_info: nc {ip_chall} port_chall
 
 ####### DON'T CHANGE #######
-value: {initial_point}
+value: 500
 type: dynamic
+
 extra:
-    initial: {initial_point}
-    decay: {decay_point}
+    initial: 500
+    decay: 8
     minimum: 100
+    require_ai_source: false
+    require_solver: true
 ####### DON'T CHANGE #######
 
 flags:
