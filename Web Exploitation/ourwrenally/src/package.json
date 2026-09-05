@@ -1,0 +1,14 @@
+{
+  "name": "wren-archive",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js"
+  },
+  "dependencies": {
+    "express": "4.21.2",
+    "helmet": "8.0.0",
+    "morgan": "1.10.0"
+  }
+}
