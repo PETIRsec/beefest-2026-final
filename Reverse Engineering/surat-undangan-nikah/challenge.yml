@@ -1,0 +1,31 @@
+name: "surat_undangan_nikah.apk"
+
+category: Reverse Engineering
+
+description: |-
+  The famous surat_undangan_nikah.apk, well im having really hard time defusing this malware, but be careful tho u might
+  dont wanna crash your phone sooo goodluck gng
+
+####### DON'T CHANGE #######
+value: 500
+type: dynamic
+extra:
+    initial: 500
+    decay: 5
+    minimum: 100
+    require_ai_source: false
+    require_solver: true
+####### DON'T CHANGE #######
+
+flags:
+  - BeeCTF{bangjangangitubanginibeneransuratundangannikahkokbukanmalwareplispercayasamaaplikasiakubang:pray}
+
+tags:
+  - "Hard"
+
+files:
+  - dist/chall.zip
+
+state: hidden
+
+version: "0.1"
