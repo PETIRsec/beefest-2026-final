@@ -3,13 +3,13 @@ name: "Ghost of Beefest"
 category: Forensic
 
 description: |-
-Jadi gua punya temen namanya brian. Dia dikasih tau temennya ada tools untuk otomatis bersihin storage 
-servernya brian karena udah mau penuh nih. Toolsnya bakal ngehapus file file yang ga berguna supaya storagenya 
-lebih leluasa. Karena brian sangat butuh, jadi dia langsung aja tuh download dan jalanin toolsnya. 
-Ga sampe semenit kita semua tau lah apa yang terjadi. Gua mau analisa disk nya tapi masalahnya masih ke encrypt. 
-Ada dua key yang perlu dicari, key untuk buka disk dan key untuk encryptionnya. Tolong friends dibantukan :)
+  Jadi gua punya temen namanya brian. Dia dikasih tau temennya ada tools untuk otomatis bersihin storage 
+  servernya brian karena udah mau penuh nih. Toolsnya bakal ngehapus file file yang ga berguna supaya storagenya 
+  lebih leluasa. Karena brian sangat butuh, jadi dia langsung aja tuh download dan jalanin toolsnya. 
+  Ga sampe semenit kita semua tau lah apa yang terjadi. Gua mau analisa disk nya tapi masalahnya masih ke encrypt. 
+  Ada dua key yang perlu dicari, key untuk buka disk dan key untuk encryptionnya. Tolong friends dibantukan :)
 
-https://drive.google.com/file/d/1etjwYFW6hsSytfqSuLNI0YOERBj6DDIX/view?usp=sharing
+  https://drive.google.com/file/d/1etjwYFW6hsSytfqSuLNI0YOERBj6DDIX/view?usp=sharing
 
 Author: arenaru
 # connection_info: nc {ip_chall} port_chall
