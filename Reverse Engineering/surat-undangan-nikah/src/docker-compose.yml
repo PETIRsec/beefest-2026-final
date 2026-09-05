@@ -1,0 +1,13 @@
+services:
+  # ENSURE THE SERVICE NAME IS UNIQUE TO AVOID CONFLICTS
+  surat-undangan-nikah:
+    build: .
+    image: surat-undangan-nikah
+    ports:
+      - "9931:5000"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
