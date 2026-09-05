@@ -1,0 +1,55 @@
+# Do not make the challenge name too long
+name: "Sync"
+
+# Binary Exploitation
+# Cryptography
+# Forensics
+# Misc
+# Reverse Engineering
+# Web Exploitation
+# Other
+category: Forensics
+
+# You can use <br> to make a new line in the description
+# Using ENTER one time does not make a new line in the description, be sure to ENTER two times to make a new line
+description: |-
+  Ada yang aneh dengan aktivitas sync OneDrive-nya si Alice. Saat disk-nya diimage, file yang sempat dia buat sudah tidak ada di filesystem. Kata tim IT, nama file itu masih bisa ditemukan. Tapi gimana caranya?
+
+  Temukan nama file yang sempat dia buat sebelum dihapus.
+
+  *Do not grep the P word!
+
+# ENSURE THE PORT YOU WANT TO USE IS NOT CURRENTLY USED BY ANOTHER CHALLENGE
+# If the challenge does not use a port, you can comment this section out like below
+# connection_info: nc {ip_chall} port_chall
+
+####### DON'T CHANGE #######
+value: {initial_point}
+type: dynamic
+extra:
+    initial: {initial_point}
+    decay: {decay_point}
+    minimum: 100
+####### DON'T CHANGE #######
+
+flags:
+  - BeeCTF{im_not_gonna_post_linkedin_again_with_this_challenge}
+
+
+# Tags should be in string data type, notice the quotation marks
+# e.g. "easy", "medium", "hard", "67"
+tags:
+  - easy
+
+
+files:
+  - dist/chall.zip
+
+# SPECIFY AT THE COMMENT BELOW at which wave will the challenge be released (1, 2, 3, etc.)
+# If there are no waves, then just leave it as 1
+# Wave : 1
+state: hidden
+# ENSURE THE STATE IS HIDDEN WHEN YOU FIRST UPLOAD THE CHALLENGE
+# ONLY CHANGE THE STATE TO VISIBLE A FEW HOURS BEFORE THE CTF STARTS
+
+version: "0.1"
