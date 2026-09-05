@@ -1,0 +1,43 @@
+name: "In Chaos"
+
+category: Reverse Engineering
+
+description: |-
+  https://www.youtube.com/watch?v=4V9PJO-cJCg
+
+  wrap the answer in BEECTF{.*}
+  example : BEECTF{aku_suka_mare_maris}
+
+
+Author: Auric
+# connection_info: nc {ip_chall} port_chall
+
+####### DON'T CHANGE #######
+value: 500
+type: dynamic
+
+extra:
+    initial: 500
+    decay: 8
+    minimum: 100
+    require_ai_source: false
+    require_solver: true
+####### DON'T CHANGE #######
+
+flags:
+  - BEECTF{Im_so_quick_Im_losing_my_mind}
+
+tags:
+  - "Easy"
+
+files:
+    - dist/dist.zip
+
+# SPECIFY AT THE COMMENT BELOW at which wave will the challenge be released (1, 2, 3, etc.)
+# If there are no waves, then just leave it as 1
+# Wave : 1
+state: hidden
+# ENSURE THE STATE IS HIDDEN WHEN YOU FIRST UPLOAD THE CHALLENGE
+# ONLY CHANGE THE STATE TO VISIBLE A FEW HOURS BEFORE THE CTF STARTS
+
+version: "0.1"
