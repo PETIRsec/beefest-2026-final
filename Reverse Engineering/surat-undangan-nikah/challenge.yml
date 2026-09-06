@@ -26,6 +26,6 @@ tags:
 files:
   - dist/chall.zip
 
-state: hidden
+state: visible
 
 version: "0.1"

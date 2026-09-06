@@ -49,8 +49,8 @@ files:
 # SPECIFY AT THE COMMENT BELOW at which wave will the challenge be released (1, 2, 3, etc.)
 # If there are no waves, then just leave it as 1
 # Wave : 1
-state: hidden
-# ENSURE THE STATE IS HIDDEN WHEN YOU FIRST UPLOAD THE CHALLENGE
+state: visible
+# STATE IS VISIBLE FOR RELEASE
 # ONLY CHANGE THE STATE TO VISIBLE A FEW HOURS BEFORE THE CTF STARTS
 
 version: "0.1"
